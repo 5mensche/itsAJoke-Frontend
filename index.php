@@ -26,11 +26,17 @@
         return json_decode($result, true);
     }
 
+    // -----------------------------------------------
+    // Get a joke
+    // -----------------------------------------------
     $joke = apiGet('jokes/random');
-    if($joke['type'] != "joke") {die("Error");}
+    if($joke['status'] != "200") {die("Error");}
 
+    // -----------------------------------------------
+    // Rating
+    // -----------------------------------------------
     if(isset($_GET['rating']) && isset($_GET['jokeId'])) {
-        echo apiPost('jokes/rate', 'rating=' . $_GET['rating'] . '&id=' . $_GET['jokeId'])['type'];
+        apiPost('jokes/rate', 'rating=' . $_GET['rating'] . '&id=' . $_GET['jokeId'])['type'];
         header("Location: /");
         exit();
     }
@@ -48,12 +54,14 @@
 <body style="height: 100vh;">
     <div style="height: 100%;" class="d-flex justify-content-center align-items-center">
         <div>
-            <h5 class="d-block"><?=$joke['joke'];?></h5>
-            <h6>
-                <a href="/">Refresh</a>
-                <a href="?rating=1&jokeId=<?= $joke['id'];?>">Like</a>
-                <a href="?rating=2&jokeId=<?= $joke['id'];?>">Dislike</a>
-            </h6>
+            <div id="joke"><?= $joke['joke'];?></div>
+            <div>
+                <a href="/"><button type="button" class="btn btn-secondary">Refresh</button></a>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="?rating=1&jokeId=<?= $joke['id'];?>"><button type="button" class="btn btn-success">Like</button></a>
+                    <a href="?rating=2&jokeId=<?= $joke['id'];?>"><button type="button" class="btn btn-danger">Dislike</button></a>
+                </div>
+            </div>
         </div>
     </div>
 </body>
