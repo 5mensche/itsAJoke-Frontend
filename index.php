@@ -26,16 +26,13 @@
         return json_decode($result, true);
     }
 
-    $joke = apiGet('joke');
+    $joke = apiGet('jokes/random');
+    if($joke['type'] != "joke") {die("Error");}
 
-    #echo apiPost('rate', 'rating=0&id=1')['type'];
     if(isset($_GET['rating']) && isset($_GET['jokeId'])) {
-        if(!empty($_GET['rating']) 
-        && is_numeric($_GET['rating']) 
-        && !empty($_GET['jokeId'])
-        && is_numeric($_GET['jokeId'])) {
-            apiPost('rate', 'rating=' . $_GET['rating'] . '&jokeId=' . $_GET['jokeId'])['type'];
-        }
+        echo apiPost('jokes/rate', 'rating=' . $_GET['rating'] . '&id=' . $_GET['jokeId'])['type'];
+        header("Location: /");
+        exit();
     }
 ?>
 <!DOCTYPE html>
@@ -51,8 +48,12 @@
 <body style="height: 100vh;">
     <div style="height: 100%;" class="d-flex justify-content-center align-items-center">
         <div>
-            <h5 class="d-block"><?=$joke['message'];?></h5>
-            <h6><a class="d-block" href="?rating=1&jokeId=2">Like</a><a href="?rating=2&jokeId=1">Dislike</a></h6>
+            <h5 class="d-block"><?=$joke['joke'];?></h5>
+            <h6>
+                <a href="/">Refresh</a>
+                <a href="?rating=1&jokeId=<?= $joke['id'];?>">Like</a>
+                <a href="?rating=2&jokeId=<?= $joke['id'];?>">Dislike</a>
+            </h6>
         </div>
     </div>
 </body>
