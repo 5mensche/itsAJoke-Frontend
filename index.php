@@ -121,9 +121,12 @@
                         </div>
                     </div>
                     <div class="p-2 col-md-4 col-12 ">
-                        <div class="rounded bg-secondary p-2">
+                        <div class="rounded bg-secondary p-3">
                             <h3>Top 5</h3>
                             <div id="top5"></div>
+                            <div>
+                                <small><a target="_blank" class="link-dark text-decoration-none" href="https://aarongensetter.ch/imprint">Impressum</a></small>
+                            </div>
                         </div>
                     </div>
                 </div>
