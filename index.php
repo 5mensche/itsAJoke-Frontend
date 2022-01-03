@@ -12,9 +12,7 @@
             let jokeId = null;
             let toast;
             let oldJokeId = null;
-
             loadNewJoke();
-
             function loadNewJoke(showMsg = false) {
                 loadTop5();
                 $.get(apiUrl + "jokes/random", function (data) {
@@ -27,7 +25,7 @@
                         } else {
                             oldJokeId = jokeId;
                             document.getElementById("joke").innerHTML = data.joke;
-                            document.getElementById("rating").innerHTML = "Rating: <span class='badge badge-pill bg-primary'>" + data.rating + "</span>";
+                            document.getElementById("rating").innerHTML = "Rating: <span class='badge badge-pill text-light bg-primary'>" + data.rating + "</span>";
                             if (showMsg) {
                                 showToast("Loading joke", "Success", "successfully loaded new joke.", "bg-success");
                             }
@@ -37,7 +35,6 @@
                     showToast("Loading joke", "Error", "Error while loading new Joke!", "bg-danger");
                 });
             }
-
             function loadTop5() {
                 $.get(apiUrl + "jokes/listtop5", function (data) {
                     if (data == null || data.status != 200) {
@@ -48,7 +45,7 @@
                         top5.innerHTML = '';
                         data.jokes.forEach(joke => {
                             let el = document.createElement("div");
-                            el.innerHTML = c + ". <span class='badge badge-pill bg-primary'>" + joke.rating + "</span> " + joke.joke;
+                            el.innerHTML = "<span class='text-light'>" + c + ". <span class='badge badge-pill bg-primary text-light'>" + joke.rating + "</span> " + joke.joke + "</span>";
                             el.classList.add('py-3')
                             top5.appendChild(el);
                             c++;
@@ -58,7 +55,6 @@
                     showToast("Loading joke", "Error", "Error while loading new top Jokes!", "bg-danger");
                 });
             }
-
             function rate(id, rating) {
                 if (id != null) {
                     $.post(apiUrl + "jokes/rate", { id: id, rating: rating })
@@ -81,15 +77,12 @@
                     showToast("Loading joke", "Error", "Error while rating Joke!", "bg-danger");
                 }
             }
-
             function like() {
                 rate(jokeId, 1);
             }
-
             function dislike() {
                 rate(jokeId, 2);
             }
-
             function showToast(title, status, message, cclass) {
                 document.getElementById("toastHeader").classList.remove("bg-success");
                 document.getElementById("toastHeader").classList.remove("bg-danger");
@@ -100,9 +93,23 @@
                 toast = new bootstrap.Toast(document.getElementById("liveToast")).show();
             }
         </script>
+        <style>
+            .bg-image {
+                background-image: url('https://images.pexels.com/photos/5962574/pexels-photo-5962574.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                filter: blur(8px);
+                -webkit-filter: blur(8px);
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                z-index: -1;
+            }
+        </style>
         <title>ItsAJoke | 5 Mensche</title>
     </head>
     <body class="bg-dark" style="height: 100vh;">
+        <div class="bg-image"></div>
         <div style="height: 100%;" class="d-flex justify-content-center align-items-center">
             <div class="container">
                 <div class="my-2 row">
@@ -114,15 +121,15 @@
                         </div>
                     </div>
                     <div class="p-2 col-md-8 col-12">
-                        <div class="rounded bg-secondary p-3">
-                            <h3>Joke</h3>
-                            <div class="text-dark" id="rating"></div>
-                            <h4 class="pt-2 text-dark" id="joke"></h4>
+                        <div class="rounded bg-dark p-3 shadow">
+                            <h3 class="text-light">It's a joke | 5 Mensche</h3>
+                            <div class="text-light" id="rating"></div>
+                            <h4 class="pt-2 text-light" id="joke"></h4>
                         </div>
                     </div>
                     <div class="p-2 col-md-4 col-12 ">
-                        <div class="rounded bg-secondary p-3">
-                            <h3>Top 5</h3>
+                        <div class="rounded bg-dark p-3 shadow">
+                            <h3 class="text-light">Top 5</h3>
                             <div id="top5"></div>
                             <div>
                                 <small><a target="_blank" class="link-dark text-decoration-none" href="https://aarongensetter.ch/imprint">Impressum</a></small>
