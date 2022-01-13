@@ -2,7 +2,7 @@ body {
     overflow-x: hidden;
 }
 
-@media only screen and (min-height: 900px) {
+@media only screen and (min-height: 700px) {
     body {
         height: 100vh;
     }
